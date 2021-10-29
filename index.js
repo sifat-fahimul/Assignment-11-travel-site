@@ -24,15 +24,21 @@ async function run() {
         const serviceCollection = database.collection('tourist');
 
         //Get API
-        app.get('/package', async (req, res) => {
+        app.get('/booking', async (req, res) => {
             const cursor = serviceCollection.find({})
             const package = await cursor.toArray()
             res.send(package)
         })
-        app.get('/hello', async (req, res) => {
-            console.log(res);
-            res.send('hello would')
+        //get single api
+        app.get('/booking/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log('getting', id);
+            const query = { _id: ObjectId(id) }
+            const booking = await serviceCollection.findOne(query)
+            res.json(booking)
+
         })
+
 
     }
     finally {
