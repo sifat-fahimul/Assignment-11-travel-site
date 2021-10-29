@@ -29,6 +29,10 @@ async function run() {
             const package = await cursor.toArray()
             res.send(package)
         })
+        app.get('/hello', async (req, res) => {
+            console.log(res);
+            res.send('hello would')
+        })
 
     }
     finally {
