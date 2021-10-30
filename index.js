@@ -23,7 +23,6 @@ async function run() {
         const database = client.db('travellers')
         const serviceCollection = database.collection('tourist');
         const orderCollection = database.collection('order');
-        const tripCollection = database.collection('trip')
 
         //Get API
         app.get('/booking', async (req, res) => {
@@ -34,7 +33,6 @@ async function run() {
         //get single api
         app.get('/booking/:id', async (req, res) => {
             const id = req.params.id;
-            console.log('getting', id);
             const query = { _id: ObjectId(id) }
             const booking = await serviceCollection.findOne(query)
             res.json(booking)
@@ -49,14 +47,20 @@ async function run() {
             res.json(result);
         })
         //post api added trip
-        app.post('/addTrip', async (req, res) => {
+        app.post('/booking', async (req, res) => {
             const trip = req.body;
-            const result = await tripCollection.insertOne(trip)
+            const result = await serviceCollection.insertOne(trip)
             res.json(result)
         })
         //get added trip
+        app.get('/orders', async (req, res) => {
+            const cursor = orderCollection.find({})
+            const trips = await cursor.toArray()
+            res.send(trips)
+        })
+        //get added trip
         app.get('/trip', async (req, res) => {
-            const cursor = tripCollection.find({})
+            const cursor = orderCollection.find({})
             const trips = await cursor.toArray()
             res.send(trips)
         })
@@ -64,7 +68,7 @@ async function run() {
         app.delete('/delete/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const result = await tripCollection.deleteOne(query)
+            const result = await orderCollection.deleteOne(query)
             res.json(result)
         })
 
@@ -76,6 +80,7 @@ async function run() {
 }
 
 run().catch(console.dir)
+
 app.get('/', (req, res) => {
     res.send('server running')
 })
