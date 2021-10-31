@@ -28,7 +28,7 @@ async function run() {
         app.get('/booking', async (req, res) => {
             const cursor = serviceCollection.find({})
             const package = await cursor.toArray()
-            res.send(package)
+            res.json(package)
         })
         //get single api
         app.get('/booking/:id', async (req, res) => {
@@ -56,13 +56,13 @@ async function run() {
         app.get('/orders', async (req, res) => {
             const cursor = orderCollection.find({})
             const trips = await cursor.toArray()
-            res.send(trips)
+            res.json(trips)
         })
         //get added trip
         app.get('/trip', async (req, res) => {
             const cursor = orderCollection.find({})
             const trips = await cursor.toArray()
-            res.send(trips)
+            res.json(trips)
         })
         //delete api 
         app.delete('/delete/:id', async (req, res) => {
